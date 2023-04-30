@@ -2,11 +2,13 @@ plugins {
     id 'org.springframework.boot' version '2.7.6'
     id 'io.spring.dependency-management' version '1.0.14.RELEASE'
     id 'java'
+    id "com.github.davidmc24.gradle.plugin.avro" version "1.2.0"
+    id "idea"
 }
 
 group = 'com.papaco'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '17'
 
 configurations {
     compileOnly {
@@ -15,7 +17,10 @@ configurations {
 }
 
 repositories {
+    gradlePluginPortal()
     mavenCentral()
+
+    maven { url "https://packages.confluent.io/maven/" }
 }
 
 ext {
@@ -34,6 +39,8 @@ dependencies {
 
     // kafka
     implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'org.apache.avro:avro:1.11.0'
+    implementation "io.confluent:kafka-avro-serializer:6.1.0"
 
     // CaseFormat
     implementation 'com.google.guava:guava:r05'
@@ -43,7 +50,7 @@ dependencies {
 
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.kafka:spring-kafka-test'
+    testImplementation 'org.springframework.kafka:spring-kafka-test:3.0.2'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'

@@ -1,11 +1,19 @@
+buildscript {
+    ext {
+        queryDslVersion = "5.0.0"
+    }
+}
+
 plugins {
     id 'org.springframework.boot' version '2.7.6'
     id 'io.spring.dependency-management' version '1.0.14.RELEASE'
     id 'java'
     id "com.github.davidmc24.gradle.plugin.avro" version "1.2.0"
     id "idea"
+    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
 }
 
+apply plugin: 'com.ewerk.gradle.plugins.querydsl'
 group = 'com.papaco'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
@@ -48,6 +56,12 @@ dependencies {
     // restAssured
     testImplementation 'io.rest-assured:rest-assured:3.3.0'
 
+    // QueryDSL
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+    annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.kafka:spring-kafka-test:3.0.2'
@@ -66,4 +80,35 @@ dependencyManagement {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+    main.java.srcDir querydslDir
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+compileQuerydsl.doFirst {
+    if(file(querydslDir).exists() )
+        delete(file(querydslDir))
+}
+
+clean {
+    delete file(querydslDir)
 }

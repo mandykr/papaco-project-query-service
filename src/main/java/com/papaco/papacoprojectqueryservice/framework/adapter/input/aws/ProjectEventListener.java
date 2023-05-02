@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class ProjectEventListener {
     private final ProjectUseCase projectUseCase;
 
-    @SqsListener(value = "sqs-change-project-update-read-model-project.fifo", deletionPolicy = SqsMessageDeletionPolicy.NEVER)
+    @SqsListener(value = "sqs-change-project-update-read-model-project.fifo", deletionPolicy = SqsMessageDeletionPolicy.ON_SUCCESS)
     public void handleEvent(@NotificationMessage ProjectBroadcastMessage message) {
         log.info("listen from sqs-change-project-update-read-model-project.fifo: {}", message.getPayload());
         ProjectPayloadReader reader = new ProjectPayloadReader();

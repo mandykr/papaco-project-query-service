@@ -4,7 +4,6 @@ import com.papaco.papacoprojectqueryservice.domain.vo.CodeStore;
 import com.papaco.papacoprojectqueryservice.domain.vo.ProjectDescription;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
 
@@ -14,7 +13,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Where(clause = "deleted = false")
@@ -42,6 +40,37 @@ public class Project {
 
     public Project(UUID id, Long ownerId, CodeStore codeStore, ProjectDescription description, List<ProjectTechStack> projectTechStacks, boolean finished, boolean deleted) {
         this(id, ownerId, codeStore, description, projectTechStacks, Collections.emptyList(), finished, deleted);
+    }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public CodeStore getCodeStore() {
+        return codeStore;
+    }
+
+    public String getDescription() {
+        return description.getDescription();
+    }
+
+    public List<ProjectTechStack> getProjectTechStacks() {
+        return projectTechStacks;
+    }
+
+    public List<Mate> getMates() {
+        return mates;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 }

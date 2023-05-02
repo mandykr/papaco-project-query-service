@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Entity
 public class ProjectTechStack {
     @Column(name = "seq")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long seq;
 

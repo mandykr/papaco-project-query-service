@@ -1,9 +1,11 @@
 package com.papaco.papacoprojectqueryservice.application.port.output;
 
 import com.papaco.papacoprojectqueryservice.domain.entity.Project;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.UUID;
+public interface ProjectRepository {
+    Project save(Project project);
 
-public interface ProjectRepository extends JpaRepository<Project, UUID> {
+    Page<Project> findAll(Pageable page);
 }

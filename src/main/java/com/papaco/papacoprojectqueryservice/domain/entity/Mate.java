@@ -37,6 +37,6 @@ public class Mate {
     @Enumerated(EnumType.STRING)
     private MateStatus status;
 
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "mate", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 }

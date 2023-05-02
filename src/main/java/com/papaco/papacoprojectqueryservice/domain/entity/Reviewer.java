@@ -15,5 +15,6 @@ import javax.persistence.Id;
 public class Reviewer {
     @Id
     private Long id;
+    private String name;
     private boolean registered;
 }

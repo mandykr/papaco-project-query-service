@@ -1,5 +1,6 @@
 package com.papaco.papacoprojectqueryservice.framework.adapter.output;
 
+import com.papaco.papacoprojectqueryservice.application.dto.ProjectDetailsResponse;
 import com.papaco.papacoprojectqueryservice.application.dto.ProjectResponse;
 import com.papaco.papacoprojectqueryservice.application.dto.ProjectSearchRequest;
 import com.papaco.papacoprojectqueryservice.application.port.output.ProjectQueryRepository;
@@ -13,13 +14,14 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import static com.papaco.papacoprojectqueryservice.domain.entity.QMate.mate;
 import static com.papaco.papacoprojectqueryservice.domain.entity.QProject.project;
 import static com.papaco.papacoprojectqueryservice.domain.entity.QProjectTechStack.projectTechStack;
 import static com.papaco.papacoprojectqueryservice.domain.entity.QTechStack.techStack;
-import static com.querydsl.core.group.GroupBy.groupBy;
-import static com.querydsl.core.group.GroupBy.list;
+import static com.querydsl.core.group.GroupBy.*;
 import static com.querydsl.core.types.Projections.bean;
 
 @RequiredArgsConstructor
@@ -54,6 +56,10 @@ public class ProjectQuerydslRepository implements ProjectQueryRepository {
     }
 
     private Predicate techStacksAll(List<Long> techStackIds) {
+        if (techStackIds.isEmpty()) {
+            return null;
+        }
+
         List<UUID> projectIds = query
                 .select(projectTechStack.project.id)
                 .from(projectTechStack)
@@ -63,5 +69,33 @@ public class ProjectQuerydslRepository implements ProjectQueryRepository {
                         .eq(Long.valueOf(techStackIds.size())))
                 .fetch();
         return project.id.in(projectIds);
+    }
+
+    @Override
+    public Optional<ProjectDetailsResponse> findById(UUID id) {
+        return Optional.of(
+                query
+                        .from(project)
+                        .leftJoin(project.projectTechStacks, projectTechStack)
+                        .leftJoin(project.mates, mate)
+                        .join(projectTechStack.techStack, techStack)
+                        .where(projectIdEq(id))
+                        .transform(groupBy(project.id)
+                                .as(bean(ProjectDetailsResponse.class,
+                                        project.id,
+                                        project.ownerId,
+                                        project.codeStore.name.as("codeStoreName"),
+                                        project.description.description,
+                                        set(techStack.name).as("techStacks"),
+                                        list(bean(ProjectDetailsResponse.MateReviewResponse.class,
+                                                mate.id,
+                                                mate.reviewer.name.as("reviewerName"),
+                                                mate.status
+                                                )).as("mates")))
+                        ).get(id));
+    }
+
+    private Predicate projectIdEq(UUID id) {
+        return id != null ? project.id.eq(id) : null;
     }
 }

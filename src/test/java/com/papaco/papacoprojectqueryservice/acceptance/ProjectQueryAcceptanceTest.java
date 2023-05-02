@@ -34,7 +34,8 @@ class ProjectQueryAcceptanceTest extends AcceptanceTest {
     @DisplayName("프로젝트 상세 정보를 조회한다")
     @Test
     void project_details() {
-
+        ExtractableResponse<Response> response = 프로젝트_상세_조회_요청("c387663b-eebb-41f0-88ee-ab50ca824022");
+        프로젝트_상세_조회됨(response);
     }
 
     @DisplayName("리뷰어 목록을 조회한다")

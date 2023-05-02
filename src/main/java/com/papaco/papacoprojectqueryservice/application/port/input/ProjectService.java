@@ -1,5 +1,6 @@
 package com.papaco.papacoprojectqueryservice.application.port.input;
 
+import com.papaco.papacoprojectqueryservice.application.dto.ProjectDetailsResponse;
 import com.papaco.papacoprojectqueryservice.application.dto.ProjectResponse;
 import com.papaco.papacoprojectqueryservice.application.dto.ProjectSearchRequest;
 import com.papaco.papacoprojectqueryservice.application.dto.ProjectUpdateRequest;
@@ -11,6 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityNotFoundException;
+import java.util.UUID;
 
 @Transactional
 @RequiredArgsConstructor
@@ -39,5 +43,11 @@ public class ProjectService implements ProjectUseCase {
     public Page<ProjectResponse> findProjectsByOwner(Pageable page, Long ownerId) {
         return projectRepository.findByOwnerId(page, ownerId)
                 .map(ProjectResponse::of);
+    }
+
+    @Override
+    public ProjectDetailsResponse findProject(UUID projectId) {
+        return projectQueryRepository.findById(projectId)
+                .orElseThrow(EntityNotFoundException::new);
     }
 }

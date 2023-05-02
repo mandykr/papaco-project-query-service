@@ -1,5 +1,6 @@
 package com.papaco.papacoprojectqueryservice.framework.adapter.input;
 
+import com.papaco.papacoprojectqueryservice.application.dto.ProjectDetailsResponse;
 import com.papaco.papacoprojectqueryservice.application.dto.ProjectResponse;
 import com.papaco.papacoprojectqueryservice.application.dto.ProjectSearchRequest;
 import com.papaco.papacoprojectqueryservice.application.port.usecase.ProjectUseCase;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RequestMapping("/projects")
@@ -30,11 +33,18 @@ public class ProjectRestController {
         return ResponseEntity.ok().body(projects);
     }
 
-    @GetMapping("/{ownerId}")
+    @GetMapping("/owner/{ownerId}")
     public ResponseEntity<Page<ProjectResponse>> findProjectsByOwner(
             @PageableDefault(size = 10, page = 0) Pageable page,
             @PathVariable Long ownerId) {
         Page<ProjectResponse> projects = projectUseCase.findProjectsByOwner(page, ownerId);
         return ResponseEntity.ok().body(projects);
+    }
+
+    @GetMapping("/{projectId}")
+    public ResponseEntity<ProjectDetailsResponse> findProject(
+            @PathVariable UUID projectId) {
+        ProjectDetailsResponse project = projectUseCase.findProject(projectId);
+        return ResponseEntity.ok().body(project);
     }
 }

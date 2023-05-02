@@ -24,11 +24,6 @@ public class ProjectQuerySteps {
                 .then().log().all().extract();
     }
 
-    public static void 프로젝트_목록_조회됨(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.body().jsonPath().getList("content")).isNotEmpty();
-    }
-
     public static ExtractableResponse<Response> 메이트_리뷰_목록_조회_요청(String mateId) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -60,7 +55,25 @@ public class ProjectQuerySteps {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .queryParam("page", "0")
                 .queryParam("size", "10")
-                .when().get(PROJECT_ENDPOINT + "/" + ownerId)
+                .when().get(PROJECT_ENDPOINT + "/owner/" + ownerId)
                 .then().log().all().extract();
+    }
+
+    public static void 프로젝트_목록_조회됨(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.body()).isNotNull();
+        assertThat(response.body().jsonPath().getList("content")).isNotEmpty();
+    }
+
+    public static ExtractableResponse<Response> 프로젝트_상세_조회_요청(String projectId) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when().get(PROJECT_ENDPOINT + "/" + projectId)
+                .then().log().all().extract();
+    }
+
+    public static void 프로젝트_상세_조회됨(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.body()).isNotNull();
     }
 }

@@ -34,4 +34,10 @@ public class ProjectService implements ProjectUseCase {
     public Page<ProjectResponse> searchProjects(Pageable page, ProjectSearchRequest condition) {
         return projectQueryRepository.searchProjects(page, condition);
     }
+
+    @Override
+    public Page<ProjectResponse> findProjectsByOwner(Pageable page, Long ownerId) {
+        return projectRepository.findByOwnerId(page, ownerId)
+                .map(ProjectResponse::of);
+    }
 }

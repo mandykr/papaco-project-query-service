@@ -12,4 +12,6 @@ public interface ProjectUseCase {
     Page<ProjectResponse> getProjects(Pageable page);
 
     Page<ProjectResponse> searchProjects(Pageable page, ProjectSearchRequest condition);
+
+    Page<ProjectResponse> findProjectsByOwner(Pageable page, Long ownerId);
 }

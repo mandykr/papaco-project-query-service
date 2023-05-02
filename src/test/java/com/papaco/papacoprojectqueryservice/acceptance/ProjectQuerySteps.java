@@ -26,6 +26,7 @@ public class ProjectQuerySteps {
 
     public static void 프로젝트_목록_조회됨(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.body().jsonPath().getList("content")).isNotEmpty();
     }
 
     public static ExtractableResponse<Response> 메이트_리뷰_목록_조회_요청(String mateId) {
@@ -51,6 +52,15 @@ public class ProjectQuerySteps {
                 .queryParam("size", "10")
                 .body(params)
                 .when().get(PROJECT_ENDPOINT + "/search")
+                .then().log().all().extract();
+    }
+
+    public static ExtractableResponse<Response> 사용자의_프로젝트_조회_요청(Long ownerId) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .queryParam("page", "0")
+                .queryParam("size", "10")
+                .when().get(PROJECT_ENDPOINT + "/" + ownerId)
                 .then().log().all().extract();
     }
 }

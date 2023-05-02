@@ -8,4 +8,6 @@ public interface ProjectRepository {
     Project save(Project project);
 
     Page<Project> findAll(Pageable page);
+
+    Page<Project> findByOwnerId(Pageable page, Long ownerId);
 }

@@ -24,16 +24,36 @@ class ProjectQueryAcceptanceTest extends AcceptanceTest {
         프로젝트_목록_조회됨(response);
     }
 
+    @DisplayName("사용자의 프로젝트 내역을 조회한다")
+    @Test
+    void project_histories() {
+        ExtractableResponse<Response> response = 사용자의_프로젝트_조회_요청(1L);
+        프로젝트_목록_조회됨(response);
+    }
+
     @DisplayName("프로젝트 상세 정보를 조회한다")
     @Test
     void project_details() {
 
     }
 
-    @DisplayName("사용자의 프로젝트 내역을 조회한다")
+    @DisplayName("리뷰어 목록을 조회한다")
     @Test
-    void project_histories() {
+    void reviewers() {
 
+    }
+
+    @DisplayName("리뷰어 상세 정보를 조회한다")
+    @Test
+    void reviewer() {
+
+    }
+
+    @DisplayName("메이트의 리뷰 목록을 조회한다")
+    @Test
+    void mate_reviews() {
+        ExtractableResponse<Response> response = 메이트_리뷰_목록_조회_요청("b061adb9-76a1-484b-beab-4f8cf4d7e798");
+        메이트_리뷰_목록_조회됨(response);
     }
 
     @DisplayName("프로젝트의 리뷰 목록을 조회한다")
@@ -46,12 +66,5 @@ class ProjectQueryAcceptanceTest extends AcceptanceTest {
     @Test
     void review_histories() {
 
-    }
-
-    @DisplayName("메이트의 리뷰 목록을 조회한다")
-    @Test
-    void mate_reviews() {
-        ExtractableResponse<Response> response = 메이트_리뷰_목록_조회_요청("b061adb9-76a1-484b-beab-4f8cf4d7e798");
-        메이트_리뷰_목록_조회됨(response);
     }
 }

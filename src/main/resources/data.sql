@@ -10,6 +10,22 @@ insert into tech_stack values(2, 'javascript');
 insert into tech_stack values(3, 'springframework');
 insert into tech_stack values(4, 'jpa');
 insert into tech_stack values(5, 'mysql');
+insert into tech_stack values(6, 'kotlin');
+
+insert into reviewer_tech_stack values(1, 1, 1);
+insert into reviewer_tech_stack values(2, 1, 2);
+insert into reviewer_tech_stack values(3, 1, 3);
+insert into reviewer_tech_stack values(4, 2, 2);
+insert into reviewer_tech_stack values(5, 3, 1);
+insert into reviewer_tech_stack values(6, 3, 2);
+insert into reviewer_tech_stack values(7, 3, 3);
+insert into reviewer_tech_stack values(8, 3, 4);
+insert into reviewer_tech_stack values(9, 3, 5);
+insert into reviewer_tech_stack values(10, 4, 1);
+insert into reviewer_tech_stack values(11, 5, 1);
+insert into reviewer_tech_stack values(12, 5, 3);
+insert into reviewer_tech_stack values(13, 6, 3);
+insert into reviewer_tech_stack values(14, 6, 6);
 
 insert into project values(X'c387663beebb41f088eeab50ca824022', 1, 'papaco', false, 'papaco project', false, 1);
 insert into project values(X'4dac95fa01e443d99feb06f63cd97bb3', 2, 'member', false, 'member project', false, 1);
@@ -39,24 +55,24 @@ insert into project_tech_stack values(15, X'4a5d5fa257744cc5816947e0a691eea7', 5
 
 -- [mate < project]
 -- 1
-insert into mate values(X'b061adb976a1484bbeab4f8cf4d7e798', 'FINISHED', X'c387663beebb41f088eeab50ca824022', 1);
-insert into mate values(X'f0839a24959541b68d6271a530cab586', 'JOINED', X'c387663beebb41f088eeab50ca824022', 2);
+insert into mate values(X'b061adb976a1484bbeab4f8cf4d7e798', '2023-01-01 13:00:00', '2023-01-02 13:00:00', 'FINISHED', X'c387663beebb41f088eeab50ca824022', 1);
+insert into mate values(X'f0839a24959541b68d6271a530cab586', '2023-01-03 13:00:00', '2023-01-04 13:00:00', 'JOINED', X'c387663beebb41f088eeab50ca824022', 2);
 
 -- 2
-insert into mate values(X'c866c66c18af4a9ca5fc81d0cfb9db37', 'FINISHED', X'4dac95fa01e443d99feb06f63cd97bb3', 3);
-insert into mate values(X'c2eb46fc5f1f4839af233ce83780ce08', 'JOINED', X'4dac95fa01e443d99feb06f63cd97bb3', 4);
+insert into mate values(X'c866c66c18af4a9ca5fc81d0cfb9db37', '2023-01-02 13:00:00', '2023-01-03 13:00:00', 'FINISHED', X'4dac95fa01e443d99feb06f63cd97bb3', 3);
+insert into mate values(X'c2eb46fc5f1f4839af233ce83780ce08', '2023-01-05 13:00:00', '2023-01-06 13:00:00', 'JOINED', X'4dac95fa01e443d99feb06f63cd97bb3', 4);
 
 -- 3
-insert into mate values(X'c07a5ba84bab4291bb91da5746806ed8', 'FINISHED', X'2ce35034e1554385a627550e771c63ec', 1);
-insert into mate values(X'3e01b471e57a4bb1b41e79112a5c37c3', 'JOINED', X'2ce35034e1554385a627550e771c63ec', 5);
+insert into mate values(X'c07a5ba84bab4291bb91da5746806ed8', '2023-01-05 13:00:00', '2023-01-06 13:00:00', 'FINISHED', X'2ce35034e1554385a627550e771c63ec', 1);
+insert into mate values(X'3e01b471e57a4bb1b41e79112a5c37c3', '2023-01-07 13:00:00', '2023-01-09 13:00:00', 'JOINED', X'2ce35034e1554385a627550e771c63ec', 5);
 
 -- 4
-insert into mate values(X'3b8e510a2e99494189ab45bc937758f1', 'FINISHED', X'c16d009d960248298cd139a21b632974', 3);
-insert into mate values(X'ec857e23d2c14905a286f0431da2d7ee', 'JOINED', X'c16d009d960248298cd139a21b632974', 4);
+insert into mate values(X'3b8e510a2e99494189ab45bc937758f1', '2023-01-05 13:00:00', '2023-01-07 13:00:00', 'FINISHED', X'c16d009d960248298cd139a21b632974', 3);
+insert into mate values(X'ec857e23d2c14905a286f0431da2d7ee', '2023-01-10 13:00:00', '2023-01-13 13:00:00', 'JOINED', X'c16d009d960248298cd139a21b632974', 4);
 
 -- 5
-insert into mate values(X'ddffb45a02814fe5b5c84e63ca5b8cfd', 'FINISHED', X'4a5d5fa257744cc5816947e0a691eea7', 1);
-insert into mate values(X'd22cc3846d204dca855a99695f619835', 'JOINED', X'4a5d5fa257744cc5816947e0a691eea7', 6);
+insert into mate values(X'ddffb45a02814fe5b5c84e63ca5b8cfd', '2023-01-11 13:00:00', '2023-01-13 13:00:00', 'FINISHED', X'4a5d5fa257744cc5816947e0a691eea7', 1);
+insert into mate values(X'd22cc3846d204dca855a99695f619835', '2023-01-15 13:00:00', '2023-01-19 13:00:00', 'JOINED', X'4a5d5fa257744cc5816947e0a691eea7', 6);
 
 
 -- [review < mate]

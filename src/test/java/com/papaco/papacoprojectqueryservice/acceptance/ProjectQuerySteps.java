@@ -10,10 +10,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 public class ProjectQuerySteps {
     private static final String PROJECT_ENDPOINT = "/projects";
     private static final String MATE_ENDPOINT = "/mates";
+    private static final String REVIEWER_ENDPOINT = "/reviewers";
 
     public static ExtractableResponse<Response> 프로젝트_목록_조회_요청() {
         return RestAssured.given().log().all()
@@ -60,9 +62,7 @@ public class ProjectQuerySteps {
     }
 
     public static void 프로젝트_목록_조회됨(ExtractableResponse<Response> response) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.body()).isNotNull();
-        assertThat(response.body().jsonPath().getList("content")).isNotEmpty();
+        데이터_목록_조회_검증(response);
     }
 
     public static ExtractableResponse<Response> 프로젝트_상세_조회_요청(String projectId) {
@@ -73,6 +73,36 @@ public class ProjectQuerySteps {
     }
 
     public static void 프로젝트_상세_조회됨(ExtractableResponse<Response> response) {
+        데이터_상세_조회_검증(response);
+    }
+
+    public static ExtractableResponse<Response> 리뷰어_검색_요청(String mateStatus, Long... techStackIds) {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("mateStatus", mateStatus);
+        params.put("techStackIds", Arrays.asList(techStackIds));
+
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .queryParam("page", "0")
+                .queryParam("size", "10")
+                .body(params)
+                .when().get(REVIEWER_ENDPOINT + "/search")
+                .then().log().all().extract();
+    }
+
+    public static void 리뷰어_목록_조회됨(ExtractableResponse<Response> response) {
+        데이터_목록_조회_검증(response);
+    }
+
+    private static void 데이터_목록_조회_검증(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.body()).isNotNull();
+        assertThatCode(() -> response.body().jsonPath().getList("content"))
+                .doesNotThrowAnyException();
+        assertThat(response.body().jsonPath().getList("content")).isNotEmpty();
+    }
+
+    private static void 데이터_상세_조회_검증(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.body()).isNotNull();
     }

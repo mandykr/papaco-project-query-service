@@ -38,10 +38,11 @@ class ProjectQueryAcceptanceTest extends AcceptanceTest {
         프로젝트_상세_조회됨(response);
     }
 
-    @DisplayName("리뷰어 목록을 조회한다")
+    @DisplayName("기술 스택으로 리뷰어 검색을 조회한다")
     @Test
     void reviewers() {
-
+        ExtractableResponse<Response> response = 리뷰어_검색_요청("WAITING", 1L, 2L, 3L);
+        리뷰어_목록_조회됨(response);
     }
 
     @DisplayName("리뷰어 상세 정보를 조회한다")

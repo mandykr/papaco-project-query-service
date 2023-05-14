@@ -15,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Mate {
+public class Mate extends BaseEntity {
     @Column(name = "id", columnDefinition = "varbinary(16)")
     @Id
     private UUID id;

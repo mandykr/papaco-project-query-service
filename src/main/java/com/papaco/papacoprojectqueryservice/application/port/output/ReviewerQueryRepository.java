@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface ReviewerQueryRepository {
     Page<ReviewerResponse> searchReviewers(Pageable page, ReviewerSearchRequest condition, List<MateStatus> statuses);
+
+    ReviewerResponse findById(Long reviewerId);
 }

@@ -7,4 +7,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface ReviewerUseCase {
     Page<ReviewerResponse> searchReviewers(Pageable page, ReviewerSearchRequest condition);
+
+    ReviewerResponse getReviewer(Long reviewerId);
 }

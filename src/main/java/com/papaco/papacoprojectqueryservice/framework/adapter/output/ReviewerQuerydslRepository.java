@@ -93,4 +93,28 @@ public class ReviewerQuerydslRepository implements ReviewerQueryRepository {
     private Predicate mateStatusIn(List<MateStatus> statuses) {
         return statuses.isEmpty() ? null : mate.status.in(statuses);
     }
+
+    @Override
+    public ReviewerResponse findById(Long reviewerId) {
+        return query
+                .from(mate)
+                .rightJoin(mate.reviewer, reviewer)
+                .leftJoin(reviewer.reviewerTechStacks, reviewerTechStack)
+                .join(reviewerTechStack.techStack, techStack)
+                .where(
+                        lastModifiedMates(),
+                        reviewerIdEq(reviewerId)
+                )
+                .transform(groupBy(reviewer.id)
+                        .list(bean(ReviewerResponse.class,
+                                reviewer.id,
+                                reviewer.name,
+                                mate.status,
+                                list(techStack.name).as("techStacks")))
+                ).get(0);
+    }
+
+    private Predicate reviewerIdEq(Long reviewerId) {
+        return reviewerId == null ? null : reviewer.id.eq(reviewerId);
+    }
 }

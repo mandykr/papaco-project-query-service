@@ -26,4 +26,9 @@ public class ReviewerService implements ReviewerUseCase {
         List<MateStatus> statuses = mateStatusSearchPolicy.getSameStatusConditions(condition.getMateStatus());
         return reviewerQueryRepository.searchReviewers(page, condition, statuses);
     }
+
+    @Override
+    public ReviewerResponse getReviewer(Long reviewerId) {
+        return reviewerQueryRepository.findById(reviewerId);
+    }
 }

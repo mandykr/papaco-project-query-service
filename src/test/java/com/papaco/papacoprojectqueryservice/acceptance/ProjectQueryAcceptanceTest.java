@@ -48,7 +48,10 @@ class ProjectQueryAcceptanceTest extends AcceptanceTest {
     @DisplayName("리뷰어 상세 정보를 조회한다")
     @Test
     void reviewer() {
-
+        ExtractableResponse<Response> reviewerResponse = 리뷰어_상세_조회_요청(1L);
+        리뷰어_상세_조회됨(reviewerResponse);
+        ExtractableResponse<Response> mateResponse = 리뷰어_메이트_이력_조회(1L);
+        리뷰어_메이트_이력_조회됨(mateResponse);
     }
 
     @DisplayName("메이트의 리뷰 목록을 조회한다")

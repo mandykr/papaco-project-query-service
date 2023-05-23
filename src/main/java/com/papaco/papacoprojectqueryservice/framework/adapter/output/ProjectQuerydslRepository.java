@@ -1,8 +1,6 @@
 package com.papaco.papacoprojectqueryservice.framework.adapter.output;
 
-import com.papaco.papacoprojectqueryservice.application.dto.ProjectDetailsResponse;
-import com.papaco.papacoprojectqueryservice.application.dto.ProjectResponse;
-import com.papaco.papacoprojectqueryservice.application.dto.ProjectSearchRequest;
+import com.papaco.papacoprojectqueryservice.application.dto.*;
 import com.papaco.papacoprojectqueryservice.application.port.output.ProjectQueryRepository;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -20,6 +18,8 @@ import java.util.UUID;
 import static com.papaco.papacoprojectqueryservice.domain.entity.QMate.mate;
 import static com.papaco.papacoprojectqueryservice.domain.entity.QProject.project;
 import static com.papaco.papacoprojectqueryservice.domain.entity.QProjectTechStack.projectTechStack;
+import static com.papaco.papacoprojectqueryservice.domain.entity.QReview.review;
+import static com.papaco.papacoprojectqueryservice.domain.entity.QReviewer.reviewer;
 import static com.papaco.papacoprojectqueryservice.domain.entity.QTechStack.techStack;
 import static com.querydsl.core.group.GroupBy.*;
 import static com.querydsl.core.types.Projections.bean;
@@ -97,5 +97,34 @@ public class ProjectQuerydslRepository implements ProjectQueryRepository {
 
     private Predicate projectIdEq(UUID id) {
         return id != null ? project.id.eq(id) : null;
+    }
+
+    @Override
+    public Page<ProjectReviewsResponse> findReviewsById(Pageable page, UUID id) {
+        List<ProjectReviewsResponse> content = query
+                .from(project)
+                .leftJoin(project.mates, mate)
+                .leftJoin(mate.reviewer, reviewer)
+                .leftJoin(mate.reviews, review)
+                .where(projectIdEq(id))
+                .offset(page.getOffset())
+                .limit(page.getPageSize())
+                .transform(groupBy(mate.id)
+                        .list(bean(ProjectReviewsResponse.class,
+                                reviewer.name.as("reviewerName"),
+                                mate.status,
+                                list(bean(ReviewResponse.class,
+                                        review.id,
+                                        review.status)
+                                ).as("reviews")))
+                );
+
+        JPAQuery<Long> countQuery = query
+                .select(project.countDistinct())
+                .from(project)
+                .leftJoin(project.mates, mate)
+                .where(projectIdEq(id));
+
+        return PageableExecutionUtils.getPage(content, page, countQuery::fetchOne);
     }
 }

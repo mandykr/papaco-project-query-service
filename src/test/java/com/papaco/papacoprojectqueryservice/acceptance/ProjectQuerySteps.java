@@ -105,7 +105,7 @@ public class ProjectQuerySteps {
         데이터_상세_조회_검증(response);
     }
 
-    public static ExtractableResponse<Response> 리뷰어_메이트_이력_조회(long reviewerId) {
+    public static ExtractableResponse<Response> 리뷰어_메이트_이력_조회_요청(long reviewerId) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .when().get(MATE_ENDPOINT + "/reviewers" + "/" + reviewerId + "/reviews")
@@ -113,6 +113,19 @@ public class ProjectQuerySteps {
     }
 
     public static void 리뷰어_메이트_이력_조회됨(ExtractableResponse<Response> response) {
+        데이터_목록_조회_검증(response);
+    }
+
+    public static ExtractableResponse<Response> 프로젝트_리뷰_목록_조회_요청(String projectId) {
+        return RestAssured.given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .queryParam("page", "0")
+                .queryParam("size", "10")
+                .when().get(PROJECT_ENDPOINT + "/" + projectId + "/reviews")
+                .then().log().all().extract();
+    }
+
+    public static void 프로젝트_리뷰_목록_조회됨(ExtractableResponse<Response> response) {
         데이터_목록_조회_검증(response);
     }
 

@@ -1,6 +1,6 @@
 package com.papaco.papacoprojectqueryservice.framework.adapter.output;
 
-import com.papaco.papacoprojectqueryservice.application.dto.MateReviewResponse;
+import com.papaco.papacoprojectqueryservice.application.dto.MateReviewsResponse;
 import com.papaco.papacoprojectqueryservice.application.dto.ReviewResponse;
 import com.papaco.papacoprojectqueryservice.application.port.output.MateQueryRepository;
 import com.querydsl.core.types.Predicate;
@@ -24,7 +24,7 @@ public class MateQuerydslRepository implements MateQueryRepository {
     private final JPAQueryFactory query;
 
     @Override
-    public List<MateReviewResponse> findMatesByReviewerId(Long reviewerId) {
+    public List<MateReviewsResponse> findMatesByReviewerId(Long reviewerId) {
         return query
                 .from(mate)
                 .join(mate.project, project)
@@ -32,7 +32,7 @@ public class MateQuerydslRepository implements MateQueryRepository {
                 .leftJoin(mate.reviews, review)
                 .where(reviewerIdEq(reviewerId))
                 .transform(groupBy(mate.id)
-                        .list(bean(MateReviewResponse.class,
+                        .list(bean(MateReviewsResponse.class,
                                 mate.id,
                                 project.codeStore.name.as("projectName"),
                                 reviewer.name.as("reviewerName"),

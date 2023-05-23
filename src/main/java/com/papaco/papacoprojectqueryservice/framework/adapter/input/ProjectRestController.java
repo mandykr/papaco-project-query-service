@@ -4,6 +4,7 @@ import com.papaco.papacoprojectqueryservice.application.dto.ProjectDetailsRespon
 import com.papaco.papacoprojectqueryservice.application.dto.ProjectResponse;
 import com.papaco.papacoprojectqueryservice.application.dto.ProjectSearchRequest;
 import com.papaco.papacoprojectqueryservice.application.port.usecase.ProjectUseCase;
+import com.papaco.papacoprojectqueryservice.application.dto.ProjectReviewsResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,5 +47,13 @@ public class ProjectRestController {
             @PathVariable UUID projectId) {
         ProjectDetailsResponse project = projectUseCase.findProject(projectId);
         return ResponseEntity.ok().body(project);
+    }
+
+    @GetMapping("/{projectId}/reviews")
+    public ResponseEntity<Page<ProjectReviewsResponse>> getProjectReviews(
+            @PageableDefault(size = 10, page = 0) Pageable page,
+            @PathVariable UUID projectId) {
+        Page<ProjectReviewsResponse> reviews = projectUseCase.getProjectReviews(page, projectId);
+        return ResponseEntity.ok().body(reviews);
     }
 }

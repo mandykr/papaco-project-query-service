@@ -1,9 +1,6 @@
 package com.papaco.papacoprojectqueryservice.application.port.usecase;
 
-import com.papaco.papacoprojectqueryservice.application.dto.ProjectDetailsResponse;
-import com.papaco.papacoprojectqueryservice.application.dto.ProjectResponse;
-import com.papaco.papacoprojectqueryservice.application.dto.ProjectSearchRequest;
-import com.papaco.papacoprojectqueryservice.application.dto.ProjectUpdateRequest;
+import com.papaco.papacoprojectqueryservice.application.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -19,4 +16,6 @@ public interface ProjectUseCase {
     Page<ProjectResponse> findProjectsByOwner(Pageable page, Long ownerId);
 
     ProjectDetailsResponse findProject(UUID projectId);
+
+    Page<ProjectReviewsResponse> getProjectReviews(Pageable page, UUID projectId);
 }

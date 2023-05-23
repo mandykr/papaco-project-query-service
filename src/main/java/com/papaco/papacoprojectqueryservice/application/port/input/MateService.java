@@ -1,6 +1,6 @@
 package com.papaco.papacoprojectqueryservice.application.port.input;
 
-import com.papaco.papacoprojectqueryservice.application.dto.MateReviewResponse;
+import com.papaco.papacoprojectqueryservice.application.dto.MateReviewsResponse;
 import com.papaco.papacoprojectqueryservice.application.port.output.MateQueryRepository;
 import com.papaco.papacoprojectqueryservice.application.port.output.MateRepository;
 import com.papaco.papacoprojectqueryservice.application.port.usecase.MateUseCase;
@@ -20,13 +20,13 @@ public class MateService implements MateUseCase {
     private final MateQueryRepository mateQueryRepository;
 
     @Override
-    public MateReviewResponse getReviews(UUID mateId) {
-        return MateReviewResponse.of(mateRepository.findReviewsByMateId(mateId)
+    public MateReviewsResponse getReviews(UUID mateId) {
+        return MateReviewsResponse.of(mateRepository.findReviewsByMateId(mateId)
                 .orElseThrow(EntityNotFoundException::new));
     }
 
     @Override
-    public List<MateReviewResponse> getMatesByReviewerId(Long reviewerId) {
+    public List<MateReviewsResponse> findMatesByReviewerId(Long reviewerId) {
         return mateQueryRepository.findMatesByReviewerId(reviewerId);
     }
 }

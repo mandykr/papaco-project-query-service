@@ -1,9 +1,6 @@
 package com.papaco.papacoprojectqueryservice.application.port.input;
 
-import com.papaco.papacoprojectqueryservice.application.dto.ProjectDetailsResponse;
-import com.papaco.papacoprojectqueryservice.application.dto.ProjectResponse;
-import com.papaco.papacoprojectqueryservice.application.dto.ProjectSearchRequest;
-import com.papaco.papacoprojectqueryservice.application.dto.ProjectUpdateRequest;
+import com.papaco.papacoprojectqueryservice.application.dto.*;
 import com.papaco.papacoprojectqueryservice.application.port.output.ProjectRepository;
 import com.papaco.papacoprojectqueryservice.application.port.usecase.ProjectUseCase;
 import com.papaco.papacoprojectqueryservice.application.port.output.ProjectQueryRepository;
@@ -49,5 +46,10 @@ public class ProjectService implements ProjectUseCase {
     public ProjectDetailsResponse findProject(UUID projectId) {
         return projectQueryRepository.findById(projectId)
                 .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    public Page<ProjectReviewsResponse> getProjectReviews(Pageable page, UUID projectId) {
+        return projectQueryRepository.findReviewsById(page, projectId);
     }
 }

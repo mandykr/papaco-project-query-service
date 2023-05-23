@@ -1,12 +1,12 @@
 package com.papaco.papacoprojectqueryservice.application.port.usecase;
 
-import com.papaco.papacoprojectqueryservice.application.dto.MateReviewResponse;
+import com.papaco.papacoprojectqueryservice.application.dto.MateReviewsResponse;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface MateUseCase {
-    MateReviewResponse getReviews(UUID mateId);
+    MateReviewsResponse getReviews(UUID mateId);
 
-    List<MateReviewResponse> getMatesByReviewerId(Long reviewerId);
+    List<MateReviewsResponse> findMatesByReviewerId(Long reviewerId);
 }

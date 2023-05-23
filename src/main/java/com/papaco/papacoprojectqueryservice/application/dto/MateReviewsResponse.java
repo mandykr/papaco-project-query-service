@@ -14,15 +14,15 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MateReviewResponse {
+public class MateReviewsResponse {
     private UUID id;
     private String projectName;
     private String reviewerName;
     private MateStatus status;
     private List<ReviewResponse> reviews;
 
-    public static MateReviewResponse of(Mate mate) {
-        return new MateReviewResponse(
+    public static MateReviewsResponse of(Mate mate) {
+        return new MateReviewsResponse(
                 mate.getId(),
                 mate.getProject().getCodeStore().getName(),
                 mate.getReviewer().getName(),

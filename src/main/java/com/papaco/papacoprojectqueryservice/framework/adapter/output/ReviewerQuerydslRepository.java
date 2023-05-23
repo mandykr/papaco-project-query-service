@@ -1,6 +1,8 @@
 package com.papaco.papacoprojectqueryservice.framework.adapter.output;
 
+import com.papaco.papacoprojectqueryservice.application.dto.ReviewResponse;
 import com.papaco.papacoprojectqueryservice.application.dto.ReviewerResponse;
+import com.papaco.papacoprojectqueryservice.application.dto.ReviewerReviewsResponse;
 import com.papaco.papacoprojectqueryservice.application.dto.ReviewerSearchRequest;
 import com.papaco.papacoprojectqueryservice.application.port.output.ReviewerQueryRepository;
 import com.papaco.papacoprojectqueryservice.domain.vo.MateStatus;
@@ -19,10 +21,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.papaco.papacoprojectqueryservice.domain.entity.QMate.mate;
+import static com.papaco.papacoprojectqueryservice.domain.entity.QProject.project;
+import static com.papaco.papacoprojectqueryservice.domain.entity.QReview.review;
 import static com.papaco.papacoprojectqueryservice.domain.entity.QReviewer.reviewer;
 import static com.papaco.papacoprojectqueryservice.domain.entity.QReviewerTechStack.reviewerTechStack;
 import static com.papaco.papacoprojectqueryservice.domain.entity.QTechStack.techStack;
-import static com.querydsl.core.group.GroupBy.*;
+import static com.querydsl.core.group.GroupBy.groupBy;
+import static com.querydsl.core.group.GroupBy.list;
 import static com.querydsl.core.types.Projections.bean;
 
 @RequiredArgsConstructor
@@ -95,7 +100,7 @@ public class ReviewerQuerydslRepository implements ReviewerQueryRepository {
     }
 
     @Override
-    public ReviewerResponse findById(Long reviewerId) {
+    public ReviewerResponse findById(Long id) {
         return query
                 .from(mate)
                 .rightJoin(mate.reviewer, reviewer)
@@ -103,7 +108,7 @@ public class ReviewerQuerydslRepository implements ReviewerQueryRepository {
                 .join(reviewerTechStack.techStack, techStack)
                 .where(
                         lastModifiedMates(),
-                        reviewerIdEq(reviewerId)
+                        reviewerIdEq(id)
                 )
                 .transform(groupBy(reviewer.id)
                         .list(bean(ReviewerResponse.class,
@@ -114,7 +119,29 @@ public class ReviewerQuerydslRepository implements ReviewerQueryRepository {
                 ).get(0);
     }
 
+    @Override
+    public List<ReviewerReviewsResponse> findReviewsById(Long id) {
+        return query
+                .from(mate)
+                .rightJoin(mate.reviewer, reviewer)
+                .rightJoin(mate.project, project)
+                .leftJoin(mate.reviews, review)
+                .where(
+                        reviewerIdEq(id)
+                )
+                .transform(groupBy(mate.id)
+                        .list(bean(ReviewerReviewsResponse.class,
+                                project.codeStore.name.as("projectName"),
+                                project.ownerId,
+                                list(bean(ReviewResponse.class,
+                                        review.id,
+                                        review.status)
+                                ).as("reviews")))
+                );
+    }
+
     private Predicate reviewerIdEq(Long reviewerId) {
         return reviewerId == null ? null : reviewer.id.eq(reviewerId);
     }
+
 }

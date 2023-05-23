@@ -71,6 +71,7 @@ class ProjectQueryAcceptanceTest extends AcceptanceTest {
     @DisplayName("사용자의 리뷰 내역을 조회한다")
     @Test
     void review_histories() {
-
+        ExtractableResponse<Response> response = 리뷰어_리뷰_이력_조회_요청(1L);
+        리뷰어_리뷰_이력_조회됨(response);
     }
 }

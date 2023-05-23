@@ -1,6 +1,7 @@
 package com.papaco.papacoprojectqueryservice.application.port.input;
 
 import com.papaco.papacoprojectqueryservice.application.dto.ReviewerResponse;
+import com.papaco.papacoprojectqueryservice.application.dto.ReviewerReviewsResponse;
 import com.papaco.papacoprojectqueryservice.application.dto.ReviewerSearchRequest;
 import com.papaco.papacoprojectqueryservice.application.port.output.ReviewerQueryRepository;
 import com.papaco.papacoprojectqueryservice.application.port.usecase.ReviewerUseCase;
@@ -28,7 +29,12 @@ public class ReviewerService implements ReviewerUseCase {
     }
 
     @Override
-    public ReviewerResponse getReviewer(Long reviewerId) {
-        return reviewerQueryRepository.findById(reviewerId);
+    public ReviewerResponse getReviewer(Long id) {
+        return reviewerQueryRepository.findById(id);
+    }
+
+    @Override
+    public List<ReviewerReviewsResponse> getReviewerReviews(Long id) {
+        return reviewerQueryRepository.findReviewsById(id);
     }
 }

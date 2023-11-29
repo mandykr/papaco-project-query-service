@@ -2,7 +2,6 @@ package com.papaco.papacoprojectqueryservice.framework.adapter.output;
 
 import com.papaco.papacoprojectqueryservice.application.dto.MateReviewsResponse;
 import com.papaco.papacoprojectqueryservice.application.dto.ReviewResponse;
-import com.papaco.papacoprojectqueryservice.application.port.output.MateQueryRepository;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

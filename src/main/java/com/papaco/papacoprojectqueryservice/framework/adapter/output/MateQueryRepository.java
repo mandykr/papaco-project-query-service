@@ -1,4 +1,4 @@
-package com.papaco.papacoprojectqueryservice.application.port.output;
+package com.papaco.papacoprojectqueryservice.framework.adapter.output;
 
 import com.papaco.papacoprojectqueryservice.application.dto.MateReviewsResponse;
 

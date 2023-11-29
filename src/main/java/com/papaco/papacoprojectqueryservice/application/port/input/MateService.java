@@ -1,7 +1,6 @@
 package com.papaco.papacoprojectqueryservice.application.port.input;
 
 import com.papaco.papacoprojectqueryservice.application.dto.MateReviewsResponse;
-import com.papaco.papacoprojectqueryservice.application.port.output.MateQueryRepository;
 import com.papaco.papacoprojectqueryservice.application.port.output.MateRepository;
 import com.papaco.papacoprojectqueryservice.application.port.usecase.MateUseCase;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import java.util.UUID;
 @Service
 public class MateService implements MateUseCase {
     private final MateRepository mateRepository;
-    private final MateQueryRepository mateQueryRepository;
 
     @Override
     public MateReviewsResponse getReviews(UUID mateId) {
@@ -27,6 +25,6 @@ public class MateService implements MateUseCase {
 
     @Override
     public List<MateReviewsResponse> findMatesByReviewerId(Long reviewerId) {
-        return mateQueryRepository.findMatesByReviewerId(reviewerId);
+        return mateRepository.findMatesByReviewerId(reviewerId);
     }
 }
